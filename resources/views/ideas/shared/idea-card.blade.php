@@ -9,28 +9,47 @@
                         </a></h5>
                 </div>
             </div>
-            <div class="d-flex gap-1 align-items-center">
-                <a href="{{route('idea.show', $idea->id)}}">View</a>
-
-                <form method="POST" action="{{route('idea.destroy', $idea->id)}}">
+            <div>
+                <form method="POST" action="{{ route('ideas.destroy', $idea->id) }}">
                     @csrf
                     @method('delete')
-                    <button class="btn btn-danger btn-sm" title="Delete">X</button>
+                    <div class="d-flex gap-1 align-items-center">
+                        <a href="{{ route('ideas.show', $idea->id) }}">View</a>
+
+                        <a href="{{ route('ideas.edit', $idea->id) }}" class="mx-2">Edit</a>
+
+                        <button class="btn btn-danger btn-sm" title="Delete">X</button>
+                    </div>
+
                 </form>
-
-
             </div>
         </div>
     </div>
     <div class="card-body">
-        <p class="fs-6 fw-light text-muted">
-            {{$idea->content}}
-        </p>
+        @if ($editing ?? false)
+            <form action="{{ route('ideas.update', $idea->id) }}" method="post">
+                @csrf
+                @method('put')
+                <div class="mb-3">
+                    <textarea name="content" class="form-control" id="content" rows="3">{{ $idea->content }}</textarea>
+                    @error('content')
+                        <span class="mt-2 d-block fs-6 text-danger"> {{ $message }} </span>
+                    @enderror
+                </div>
+                <div class="">
+                    <button type="submit" class="mb-2 btn btn-dark btn-sm"> Update </button>
+                </div>
+            </form>
+        @else
+            <p class="fs-6 fw-light text-muted">
+                {{ $idea->content }}
+            </p>
+        @endif
         <div class="d-flex justify-content-between">
             @include('ideas.shared.like-button')
             <div>
                 <span class="fs-6 fw-light text-muted"> <span class="fas fa-clock"> </span>
-                    {{$idea->created_at}} </span>
+                    {{ $idea->created_at }} </span>
             </div>
         </div>
         @include('ideas.shared.comment-box')
