@@ -1,4 +1,4 @@
-<div>
+@auth
     <h4> Share yours ideas </h4>
     <div class="row">
         <form action="{{ route('ideas.create') }}" method="post">
@@ -12,4 +12,8 @@
             <button class="btn btn-dark"> Share </button>
         </form>
     </div>
-</div>
+@endauth
+
+@guest
+    <h4>Login to share your idea</h4>
+@endguest

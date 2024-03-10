@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
 use App\Models\Idea;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class IdeaController extends Controller
 {
-    public function store()
+    public function store(): RedirectResponse
     {
         $validated = request()->validate([
             'content' => 'required|min:5|max:240',
         ]);
+
+        $validated['user_id'] = auth()->id();
 
         Idea::create($validated);
 
@@ -21,8 +22,12 @@ class IdeaController extends Controller
             ->with('success', 'Idea created successfully');
     }
 
-    public function destroy(Idea $idea)
+    public function destroy(Idea $idea): RedirectResponse
     {
+        if(auth()->id() !== $idea->user_id){
+            abort('404');
+        }
+
         $idea->delete();
 
         return redirect()
@@ -37,13 +42,22 @@ class IdeaController extends Controller
 
     public function edit(Idea $idea)
     {
+
+        if(auth()->id() !== $idea->user_id){
+            abort('404');
+        }
+
         $editing = true;
 
         return view('ideas.show', compact('idea', 'editing'));
     }
 
-    public function update(Idea $idea)
+    public function update(Idea $idea): RedirectResponse
     {
+        if(auth()->id() !== $idea->user_id){
+            abort('404');
+        }
+
         $validated = request()->validate([
             'content' => 'required|min:5|max:240',
         ]);
