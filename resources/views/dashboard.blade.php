@@ -10,15 +10,18 @@
         <div class="col-6">
             @include('shared.success-message')
             @include('shared.submit-idea')
+
             <hr>
 
-            @foreach ($ideas as $idea)
+            @forelse ($ideas as $idea)
                 <div class="mt-3">
                     @include('ideas.shared.idea-card')
                 </div>
-            @endforeach
+            @empty
+                <p class="text-center mt-3">No idea found</p>
+            @endforelse
 
-            <div class="mt-3">{{$ideas -> links()}}</div>
+            <div class="mt-3">{{ $ideas->withQueryString()->links() }}</div>
 
         </div>
         <div class="col-3">
