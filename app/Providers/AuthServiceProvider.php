@@ -32,12 +32,12 @@ class AuthServiceProvider extends ServiceProvider
 
         //permission
 
-        Gate::define('ideas.delete', function (User $user, Idea $idea): bool {
-            return (bool) $user->is_admin || $idea->user->id === $user->id;
-        });
+        // Gate::define('ideas.delete', function (User $user, Idea $idea): bool {
+        //     return (bool) $user->is_admin || $idea->user->id === $user->id;
+        // });
 
-        Gate::define('ideas.edit', function (User $user, Idea $idea): bool {
-            return (bool) $user->is_admin || $idea->user->id === $user->id;
-        });
+        // Gate::define('ideas.edit', function (User $user, Idea $idea): bool {
+        //     return (bool) $user->is_admin || $idea->user->id === $user->id;
+        // });
     }
 }
