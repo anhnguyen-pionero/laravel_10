@@ -12,11 +12,9 @@
                 </div>
             </div>
 
-            @auth
-                @if ($user->id === Auth::id())
-                    <a href="{{ route('users.edit', $user->id) }}">Edit</a>
-                @endif
-            @endauth
+            @can('update', $user)
+                <a href="{{ route('users.edit', $user->id) }}">Edit</a>
+            @endcan
         </div>
         <div class="px-2 mt-4">
             <h5 class="fs-5"> About : </h5>
@@ -25,7 +23,7 @@
             </p>
             @include('users.shared.user-stats')
             @auth
-                @if ($user->id !== Auth::id())
+                @can('update', $user)
                     @if (Auth::user()->isFollowing($user))
                         <form class="mt-3" method="post" action="{{ route('user.unfollow', $user->id) }}">
                             @csrf
@@ -37,8 +35,7 @@
                             <button class="btn btn-primary btn-sm" type="submit"> Follow </button>
                         </form>
                     @endif
-                @endif
-
+                @endcan
             @endauth
         </div>
     </div>

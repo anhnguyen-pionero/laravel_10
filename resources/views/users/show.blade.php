@@ -18,7 +18,7 @@
                     @include('ideas.shared.idea-card')
                 </div>
             @empty
-                <p class="text-center mt-4">No results Found.</p>
+                <p class="text-center mt-4">No Ideas Found.</p>
             @endforelse
 
             <div class="mt-3">
