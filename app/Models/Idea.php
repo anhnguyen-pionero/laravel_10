@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Idea extends Model
 {
+    protected $with = ['user:id,name,image', 'comments.user:id,name,image'];
     protected $fillable = [
         'user_id',
         'content',
-        'likes',
     ];
 
     public function comments(){
@@ -21,6 +21,11 @@ class Idea extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+
+    public function likes(){
+        return $this->belongsToMany(User::class, 'idea_like')->withTimestamps();
     }
 
     use HasFactory;
