@@ -24,9 +24,8 @@ class IdeaController extends Controller
 
     public function destroy(Idea $idea): RedirectResponse
     {
-        if(auth()->id() !== $idea->user_id){
-            abort('404');
-        }
+        $this->authorize('ideas.delete', $idea);
+
 
         $idea->delete();
 
@@ -43,7 +42,8 @@ class IdeaController extends Controller
     public function edit(Idea $idea)
     {
 
-        if(auth()->id() !== $idea->user_id){
+        $this->authorize('ideas.edit', $idea);
+        if (auth()->id() !== $idea->user_id) {
             abort('404');
         }
 
@@ -54,7 +54,7 @@ class IdeaController extends Controller
 
     public function update(Idea $idea): RedirectResponse
     {
-        if(auth()->id() !== $idea->user_id){
+        if (auth()->id() !== $idea->user_id) {
             abort('404');
         }
 

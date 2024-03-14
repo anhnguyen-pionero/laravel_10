@@ -45,4 +45,4 @@ Route::get('/terms', function () {
 })->name('terms');
 
 
-Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard')->middleware('admin', 'auth');
+Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard')->middleware('auth', 'can:admin');

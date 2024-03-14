@@ -75,7 +75,7 @@ class User extends Authenticatable
 
     public function getImageUrl()
     {
-        if($this->image){
+        if ($this->image) {
             return url('storage/', $this->image);
         }
 
@@ -89,6 +89,6 @@ class User extends Authenticatable
 
     public function isLiked(Idea $idea)
     {
-          return $this->likes()->where('idea_id', $idea->id)->exists();
+        return $this->likes()->where('idea_id', $idea->id)->exists();
     }
 }

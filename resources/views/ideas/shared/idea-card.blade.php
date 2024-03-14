@@ -13,18 +13,22 @@
                 </div>
             </div>
             <div>
-                <form method="POST" action="{{ route('ideas.destroy', $idea->id) }}">
-                    @csrf
-                    @method('delete')
-                    <div class="d-flex gap-1 align-items-center">
-                        <a href="{{ route('ideas.show', $idea->id) }}">View</a>
+                @auth
+                    @can('ideas.edit', $idea)
+                        <form method="POST" action="{{ route('ideas.destroy', $idea->id) }}">
+                            @csrf
+                            @method('delete')
+                            <div class="d-flex gap-1 align-items-center">
+                                <a href="{{ route('ideas.show', $idea->id) }}">View</a>
 
-                        <a href="{{ route('ideas.edit', $idea->id) }}" class="mx-2">Edit</a>
+                                <a href="{{ route('ideas.edit', $idea->id) }}" class="mx-2">Edit</a>
 
-                        <button class="btn btn-danger btn-sm" title="Delete">X</button>
-                    </div>
+                                <button class="btn btn-danger btn-sm" title="Delete">X</button>
+                            </div>
 
-                </form>
+                        </form>
+                    @endcan
+                @endauth
             </div>
         </div>
     </div>

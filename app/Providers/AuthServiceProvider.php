@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use App\Models\Idea;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +25,19 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        //role
+        Gate::define('admin', function (User $user): bool {
+            return (bool) $user->is_admin;
+        });
+
+        //permission
+
+        Gate::define('ideas.delete', function (User $user, Idea $idea): bool {
+            return (bool) $user->is_admin || $idea->user->id === $user->id;
+        });
+
+        Gate::define('ideas.edit', function (User $user, Idea $idea): bool {
+            return (bool) $user->is_admin || $idea->user->id === $user->id;
+        });
     }
 }
